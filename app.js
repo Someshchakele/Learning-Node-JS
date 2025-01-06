@@ -30,14 +30,26 @@ const fs = require('fs');
 
 //Lecture 7 - Read & Write Files Asynchronously
 
-fs.readFile('./Files/start.txt', 'utf-8' , (error1 , data1)=>{
-    console.log(data1)
-    fs.readFile(`./Files/${data1}.txt`, 'utf-8' , (error2 , data2)=>{
-        console.log(data2)
-            fs.writeFile('./Files/output.txt', `${data1}`        
-            )
+// fs.readFile('./Files/start.txt', 'utf-8' , (error1 , data1)=>{
+//     console.log(data1)
+//     fs.readFile(`./Files/${data1}.txt`, 'utf-8' , (error2 , data2)=>{
+//         console.log(data2)
+//             fs.writeFile('./Files/output.txt', `${data1}`        
+//             )
         
-    })
+//     })
+// })
+
+// console.log("Reading Files...")
+
+// Lecure 8 - creating simple web server
+
+const http = require('http');
+
+const server =  http.createServer((request , response)=>{
+    console.log("A new request")
 })
 
-console.log("Reading Files...")
+server.listen(3000, '127.0.0.1' , ()=>{
+    console.log("Server has Started")
+})
