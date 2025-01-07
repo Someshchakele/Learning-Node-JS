@@ -42,18 +42,41 @@ const fs = require('fs');
 
 // console.log("Reading Files...")
 
-// Lecure 8 - creating simple web server & Lecture 9
+// Lecure 8 - creating simple web server & Lecture 9 & Lecture 10
+
+// const http = require('http');
+
+
+// const html = fs.readFileSync('./Template/index.html', 'utf-8');
+
+// const server =  http.createServer((request , response)=>{
+//     response.end(html);
+//     console.log("A new request")
+// })
+
+// server.listen(3000, '127.0.0.1' , ()=>{
+//     console.log("Server has Started")
+// })
+
+
+//Lecture 11 - Creating Routes in NodeJS
 
 const http = require('http');
 
-
-const html = fs.readFileSync('./Template/index.html', 'utf-8');
-
 const server =  http.createServer((request , response)=>{
-    response.end(html);
-    console.log("A new request")
+   let path =  request.url
+   if(path === '/' || path.toLocaleLowerCase() ==='/home'){
+    response.end("This is Home Page");
+   }
+   else if(path === '/about'){
+    response.end("This is About Page");
+   }
+   else{
+    response.end("404 Error Page Not Found");
+   }
 })
 
 server.listen(3000, '127.0.0.1' , ()=>{
     console.log("Server has Started")
 })
+
