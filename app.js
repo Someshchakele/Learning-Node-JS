@@ -61,22 +61,45 @@ const fs = require('fs');
 
 //Lecture 11 - Creating Routes in NodeJS
 
-const http = require('http');
+// const http = require('http');
 
+// const server =  http.createServer((request , response)=>{
+//    let path =  request.url
+//    if(path === '/' || path.toLocaleLowerCase() ==='/home'){
+//     response.end("This is Home Page");
+//    }
+//    else if(path === '/about'){
+//     response.end("This is About Page");
+//    }
+//    else{
+//     response.end("404 Error Page Not Found");
+//    }
+// })
+
+// server.listen(3000, '127.0.0.1' , ()=>{
+//     console.log("Server has Started")
+// })
+
+
+//Lecture 13 - Sending Html Response
+
+const http = require('http');
+const html = fs.readFileSync('./Template/index.html', 'utf-8');
 const server =  http.createServer((request , response)=>{
    let path =  request.url
    if(path === '/' || path.toLocaleLowerCase() ==='/home'){
-    response.end("This is Home Page");
+    response.end(html.replace('{{%CONTENT%}}', 'You are in Home Page'));
    }
    else if(path === '/about'){
-    response.end("This is About Page");
+    response.end(html.replace('{{%CONTENT%}}', 'You are in About Page'));
    }
    else{
-    response.end("404 Error Page Not Found");
+    response.end(html.replace('{{%CONTENT%}}', '404 Errror Page'));
    }
 })
 
 server.listen(3000, '127.0.0.1' , ()=>{
     console.log("Server has Started")
 })
+
 
