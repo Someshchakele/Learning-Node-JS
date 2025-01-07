@@ -1,4 +1,4 @@
-const readline =require('readline')
+const readline = require('readline')
 const fs = require('fs');
 // const rl = readline.createInterface({
 //     input:process.stdin,
@@ -42,11 +42,15 @@ const fs = require('fs');
 
 // console.log("Reading Files...")
 
-// Lecure 8 - creating simple web server
+// Lecure 8 - creating simple web server & Lecture 9
 
 const http = require('http');
 
+
+const html = fs.readFileSync('./Template/index.html', 'utf-8');
+
 const server =  http.createServer((request , response)=>{
+    response.end(html);
     console.log("A new request")
 })
 
