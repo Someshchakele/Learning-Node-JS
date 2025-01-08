@@ -89,6 +89,10 @@ const server =  http.createServer((request , response)=>{
    let path =  request.url
    if(path === '/' || path.toLocaleLowerCase() ==='/home'){
     response.end(html.replace('{{%CONTENT%}}', 'You are in Home Page'));
+    response.writeHead(200,{
+        'Content-Type': 'text/html',
+        'my-header': 'Hellow, world'
+    })
    }
    else if(path === '/about'){
     response.end(html.replace('{{%CONTENT%}}', 'You are in About Page'));
