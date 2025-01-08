@@ -82,9 +82,12 @@ const fs = require('fs');
 
 
 //Lecture 13 - Sending Html Response
-
+//Lecture 14 - Setting headers for response
+//Lecture 15 - Working with JSON data 
+ 
 const http = require('http');
 const html = fs.readFileSync('./Template/index.html', 'utf-8');
+let products = JSON.parse(fs.readFileSync('./Data/products.json', 'utf-8'))
 const server =  http.createServer((request , response)=>{
    let path =  request.url
    if(path === '/' || path.toLocaleLowerCase() ==='/home'){
@@ -96,6 +99,14 @@ const server =  http.createServer((request , response)=>{
    }
    else if(path === '/about'){
     response.end(html.replace('{{%CONTENT%}}', 'You are in About Page'));
+   }
+   else if(path === '/products'){
+   response.writeHead(200, {
+    'COntent-Type': 'application/json'
+   });
+   response.end('You are in Products Page')
+   console.log(products)
+
    }
    else{
     response.end(html.replace('{{%CONTENT%}}', '404 Errror Page'));
