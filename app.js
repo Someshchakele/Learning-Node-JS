@@ -1,5 +1,6 @@
 const readline = require('readline')
 const fs = require('fs');
+const events = require('events')
 // const rl = readline.createInterface({
 //     input:process.stdin,
 //     output:process.stdout,
@@ -87,34 +88,52 @@ const fs = require('fs');
  
 const http = require('http');
 const html = fs.readFileSync('./Template/index.html', 'utf-8');
-let products = JSON.parse(fs.readFileSync('./Data/products.json', 'utf-8'))
-const server =  http.createServer((request , response)=>{
-   let path =  request.url
-   if(path === '/' || path.toLocaleLowerCase() ==='/home'){
-    response.end(html.replace('{{%CONTENT%}}', 'You are in Home Page'));
-    response.writeHead(200,{
-        'Content-Type': 'text/html',
-        'my-header': 'Hellow, world'
-    })
-   }
-   else if(path === '/about'){
-    response.end(html.replace('{{%CONTENT%}}', 'You are in About Page'));
-   }
-   else if(path === '/products'){
-   response.writeHead(200, {
-    'COntent-Type': 'application/json'
-   });
-   response.end('You are in Products Page')
-   console.log(products)
+// let products = JSON.parse(fs.readFileSync('./Data/products.json', 'utf-8'))
+// let productList = fs.readFileSync('./Template/product-list.html', 'utf-8')
+// products.map((prod)=>{
+//     let output = productList.replace('{{%userId%}}', prod.userId)
+// })
+// const server =  http.createServer((request , response)=>{
+//    let path =  request.url
+//    if(path === '/' || path.toLocaleLowerCase() ==='/home'){
+    
+//     response.writeHead(200,{
+//         'Content-Type': 'text/html',
+//         'my-header': 'Hellow, world'
+//     });
+//     response.end(html.replace('{{%CONTENT%}}', productList));
+//    }
+//    else if(path === '/about'){
+//     response.end(html.replace('{{%CONTENT%}}', 'You are in About Page'));
+//    }
+//    else if(path === '/products'){
+//    response.writeHead(200, {
+//     'COntent-Type': 'application/json'
+//    });
+//    response.end('You are in Products Page')
+//    console.log(products)
 
-   }
-   else{
-    response.end(html.replace('{{%CONTENT%}}', '404 Errror Page'));
-   }
+//    }
+//    else{
+//     response.end(html.replace('{{%CONTENT%}}', '404 Errror Page'));
+//    }
+// })
+
+// server.listen(3000, '127.0.0.1' , ()=>{
+//     console.log("Server has Started")
+// })
+
+
+// Lecture 20
+
+let myEmitter = new events.EventEmitter();
+
+
+
+myEmitter.on("userCreated" , (id , name)=>{
+    console.log(`A user created by ${id} and name is ${name}`)
 })
 
-server.listen(3000, '127.0.0.1' , ()=>{
-    console.log("Server has Started")
-})
+myEmitter.emit("userCreated" , 9 , 'Somesh');
 
 
