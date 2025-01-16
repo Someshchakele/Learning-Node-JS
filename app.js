@@ -1,6 +1,7 @@
 const readline = require('readline')
 const fs = require('fs');
 const events = require('events')
+
 // const rl = readline.createInterface({
 //     input:process.stdin,
 //     output:process.stdout,
@@ -45,7 +46,7 @@ const events = require('events')
 
 // Lecure 8 - creating simple web server & Lecture 9 & Lecture 10
 
-// const http = require('http');
+const http = require('http');
 
 
 // const html = fs.readFileSync('./Template/index.html', 'utf-8');
@@ -55,9 +56,10 @@ const events = require('events')
 //     console.log("A new request")
 // })
 
-// server.listen(3000, '127.0.0.1' , ()=>{
-//     console.log("Server has Started")
-// })
+const server = http.createServer();
+server.listen(3000, '127.0.0.1' , ()=>{
+    console.log("Server has Started")
+})
 
 
 //Lecture 11 - Creating Routes in NodeJS
@@ -86,7 +88,7 @@ const events = require('events')
 //Lecture 14 - Setting headers for response
 //Lecture 15 - Working with JSON data 
  
-const http = require('http');
+// const http = require('http');
 const html = fs.readFileSync('./Template/index.html', 'utf-8');
 // let products = JSON.parse(fs.readFileSync('./Data/products.json', 'utf-8'))
 // let productList = fs.readFileSync('./Template/product-list.html', 'utf-8')
@@ -126,14 +128,36 @@ const html = fs.readFileSync('./Template/index.html', 'utf-8');
 
 // Lecture 20
 
-let myEmitter = new events.EventEmitter();
+// let myEmitter = new events.EventEmitter();
 
 
 
-myEmitter.on("userCreated" , (id , name)=>{
-    console.log(`A user created by ${id} and name is ${name}`)
+// myEmitter.on("userCreated" , (id , name)=>{
+//     console.log(`A user created by ${id} and name is ${name}`)
+// })
+
+// myEmitter.emit("userCreated" , 9 , 'Somesh');
+
+
+
+
+// code to create million line of code in one sec
+// const filePath = './Files/large-file.txt';
+
+// const writeStream = fs.createWriteStream(filePath);
+
+// for (let i = 1; i <= 1000000; i++) {
+//   writeStream.write(`This is sentence number ${i}\n`);
+// }
+
+// writeStream.end(() => console.log("File generated successfully!"));
+
+
+server.on('request' , (req , res)=>{
+    let rs = fs.createReadStream("./Files/large-file.txt");
+
+    rs.on('data' , (chunks)=>{
+        res.write(chunks)
+        res.end();
+    })
 })
-
-myEmitter.emit("userCreated" , 9 , 'Somesh');
-
-
