@@ -1,6 +1,6 @@
-const readline = require('readline')
-const fs = require('fs');
-const events = require('events')
+// const readline = require('readline')
+// const fs = require('fs');
+// const events = require('events')
 
 // const rl = readline.createInterface({
 //     input:process.stdin,
@@ -46,7 +46,7 @@ const events = require('events')
 
 // Lecure 8 - creating simple web server & Lecture 9 & Lecture 10
 
-const http = require('http');
+// const http = require('http');
 
 
 // const html = fs.readFileSync('./Template/index.html', 'utf-8');
@@ -56,10 +56,10 @@ const http = require('http');
 //     console.log("A new request")
 // })
 
-const server = http.createServer();
-server.listen(3000, '127.0.0.1' , ()=>{
-    console.log("Server has Started")
-})
+// const server = http.createServer();
+// server.listen(3000, '127.0.0.1' , ()=>{
+//     console.log("Server has Started")
+// })
 
 
 //Lecture 11 - Creating Routes in NodeJS
@@ -89,7 +89,7 @@ server.listen(3000, '127.0.0.1' , ()=>{
 //Lecture 15 - Working with JSON data 
  
 // const http = require('http');
-const html = fs.readFileSync('./Template/index.html', 'utf-8');
+// const html = fs.readFileSync('./Template/index.html', 'utf-8');
 // let products = JSON.parse(fs.readFileSync('./Data/products.json', 'utf-8'))
 // let productList = fs.readFileSync('./Template/product-list.html', 'utf-8')
 // products.map((prod)=>{
@@ -153,11 +153,34 @@ const html = fs.readFileSync('./Template/index.html', 'utf-8');
 // writeStream.end(() => console.log("File generated successfully!"));
 
 
-server.on('request' , (req , res)=>{
-    let rs = fs.createReadStream("./Files/large-file.txt");
+// server.on('request' , (req , res)=>{
+//     let rs = fs.createReadStream("./Files/large-file.txt");
 
-    rs.on('data' , (chunks)=>{
-        res.write(chunks)
-        res.end();
-    })
+//     rs.on('data' , (chunks)=>{
+//         res.write(chunks)
+//         res.end();
+//     })
+// })
+
+// lecture 34
+const express = require('express');
+const fs = require('fs');
+
+let app = express();
+let movies = JSON.parse(fs.readFileSync('./Data/products.json'))
+
+app.get('/api/v1/movies', (req , res)=>{
+    res.status(200).json(
+        {
+            status:"success",
+            count:movies.length,
+            data:{
+                movies:movies
+            }
+        }
+    );
+});
+const port = 3000;
+app.listen(port, ()=>{
+    console.log('server has started...')
 })

@@ -1,0 +1,37 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular build artifacts
+dist/
+out-tsc/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# Logs and temporary files
+logs/
+*.log
+tmp/
+
+# Environment and configuration files
+.env
+*.local
+
+# Compiled files
+*.dll
+*.exe
+*.so
+*.dylib
+*.bin
+
+# Misc
+.DS_Store
+Thumbs.db
