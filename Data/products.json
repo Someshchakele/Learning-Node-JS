@@ -602,5 +602,8 @@
   { "id": 101, "compLoginNm": "admin", "compPassword": "admin" },
   { "id": 102, "compLoginNm": "admin", "compPassword": "admin" },
   { "id": 103, "compLoginNm": "admin", "compPassword": "admin" },
-  { "id": 104, "compLoginNm": "admin", "compPassword": "admin" }
+  { "id": 104, "compLoginNm": "admin", "compPassword": "admin" },
+  { "id": 105, "compLoginNm": "admin", "compPassword": "admin" },
+  { "id": 106, "compLoginNm": "admin", "compPassword": "admin" },
+  { "id": 107, "compLoginNm": "admin", "compPassword": "admin" }
 ]
