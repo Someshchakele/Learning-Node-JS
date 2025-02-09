@@ -204,6 +204,32 @@ app.get('/api/v1/movies/:id', (req , res)=>{
     });
 })
 
+app.patch('/api/v1/movies/:id',(req,res)=>{
+    let id = req.params.id * 1;
+    let moviesUpdate = movies.find(el=> el.id === id);
+    let index = movies.indexOf(moviesUpdate);
+
+    if(!moviesUpdate){
+        return res.status(404).json({
+             status:"error",
+             message:"cannot find item"
+         });
+     }
+
+    Object.assign(moviesUpdate, req.body);
+    movies[index] = moviesUpdate;
+
+    fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
+                res.status(201).json({
+                    status: "success",
+                    data: {
+                        movie:moviesUpdate
+                    }
+                })
+            })
+    
+})
+
 // app.post('/api/v1/movies', (req , res)=>{
 //     // console.log(req.body)
 //     const newId = movies[movies.length - 1].id + 1
