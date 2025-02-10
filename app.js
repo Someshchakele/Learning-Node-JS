@@ -170,19 +170,19 @@ let app = express();
 let movies = JSON.parse(fs.readFileSync('./Data/products.json'))
 app.use(express.json())
 
-// app.get('/api/v1/movies', (req , res)=>{
-//     res.status(200).json(
-//         {
-//             status:"success",
-//             count:movies.length,
-//             data:{
-//                 movies:movies
-//             }
-//         }
-//     );
-// });
+const getAllMovies = (req , res)=>{
+    res.status(200).json(
+        {
+            status:"success",
+            count:movies.length,
+            data:{
+                movies:movies
+            }
+        }
+    );
+}
 
-app.get('/api/v1/movies/:id', (req , res)=>{
+const getMovie = (req , res)=>{
     // console.log(req.params);
 
     const id = req.params.id * 1;
@@ -202,9 +202,9 @@ app.get('/api/v1/movies/:id', (req , res)=>{
             movie:movie
         }
     });
-})
+}
 
-app.patch('/api/v1/movies/:id',(req,res)=>{
+const updateMovie = (req,res)=>{
     let id = req.params.id * 1;
     let moviesUpdate = movies.find(el=> el.id === id);
     let index = movies.indexOf(moviesUpdate);
@@ -228,24 +228,30 @@ app.patch('/api/v1/movies/:id',(req,res)=>{
                 })
             })
     
-})
+}
 
-// app.post('/api/v1/movies', (req , res)=>{
-//     // console.log(req.body)
-//     const newId = movies[movies.length - 1].id + 1
-//     const newMovie = Object.assign({id: newId}, req.body)
+const createMovie = (req , res)=>{
+    // console.log(req.body)
+    const newId = movies[movies.length - 1].id + 1
+    const newMovie = Object.assign({id: newId}, req.body)
 
-//     movies.push(newMovie);
-//     fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
-//         res.status(201).json({
-//             status: "status",
-//             data: {
-//                 movie:newMovie
-//             }
-//         })
-//     })
+    movies.push(newMovie);
+    fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
+        res.status(201).json({
+            status: "status",
+            data: {
+                movie:newMovie
+            }
+        })
+    })
    
-// })
+}
+
+//Route Handler Functions
+app.get('/api/v1/movies', getAllMovies);
+app.get('/api/v1/movies/:id', getMovie)
+app.patch('/api/v1/movies/:id',updateMovie)
+app.post('/api/v1/movies', createMovie)
 
 
 const port = 3000;
