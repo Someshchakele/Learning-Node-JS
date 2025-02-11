@@ -248,10 +248,21 @@ const createMovie = (req , res)=>{
 }
 
 //Route Handler Functions
-app.get('/api/v1/movies', getAllMovies);
-app.get('/api/v1/movies/:id', getMovie)
-app.patch('/api/v1/movies/:id',updateMovie)
-app.post('/api/v1/movies', createMovie)
+// app.get('/api/v1/movies', getAllMovies);
+// app.get('/api/v1/movies/:id', getMovie)
+// app.patch('/api/v1/movies/:id',updateMovie)
+// app.post('/api/v1/movies', createMovie)
+
+const moviesRouter = express.Router()
+    moviesRouter.route('/')
+        .get(getAllMovies)
+        .post(createMovie)
+
+    moviesRouter.route('/:id')
+        .get(getMovie)
+        .patch(updateMovie) 
+
+    app.use('/api/v1/movies', moviesRouter)
 
 
 const port = 3000;
