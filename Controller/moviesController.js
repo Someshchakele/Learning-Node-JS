@@ -2,6 +2,17 @@ const fs = require('fs');
 
 let movies = JSON.parse(fs.readFileSync('./Data/products.json'))
 
+exports.checkId = (req,res,next,value)=>{
+    let movie = movies.find(el => el.id === value * 1);
+
+    if(!movie){
+       return res.status(404).json({
+            status:"error",
+            message:" Movies with " + value + " is not found "
+        });
+    }
+    next();
+}
 exports.getAllMovies = (req , res)=>{
     res.status(200).json(
         {
@@ -19,14 +30,14 @@ exports.getMovie = (req , res)=>{
 
     const id = req.params.id * 1;
 
-    let movie = movies.find(el => el.id === id);
+    // let movie = movies.find(el => el.id === id);
 
-    if(!movie){
-       return res.status(404).json({
-            status:"error",
-            message:"failed"
-        });
-    }
+    // if(!movie){
+    //    return res.status(404).json({
+    //         status:"error",
+    //         message:"failed"
+    //     });
+    // }
 
     res.status(200).json({
         status:"success",
@@ -41,12 +52,12 @@ exports.updateMovie = (req,res)=>{
     let moviesUpdate = movies.find(el=> el.id === id);
     let index = movies.indexOf(moviesUpdate);
 
-    if(!moviesUpdate){
-        return res.status(404).json({
-             status:"error",
-             message:"cannot find item"
-         });
-     }
+    // if(!moviesUpdate){
+    //     return res.status(404).json({
+    //          status:"error",
+    //          message:"cannot find item"
+    //      });
+    //  }
 
     Object.assign(moviesUpdate, req.body);
     movies[index] = moviesUpdate;
