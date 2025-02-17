@@ -29,6 +29,16 @@ const movieSchema = new mongoose.Schema({
     },
     ratings:{type: Number , default:1.0}
 })
+
+const Movie = mongoose.model('Movie', movieSchema)
+
+const testMovie =  new Movie({
+    name:"hard",
+    description:"sfdgdfhsdfhsdf",
+    duration:112,
+    ratings:3.0
+})
+testMovie.save().then((doc)=>{console.log(doc)}).catch(err=>console.log("error occured"))
 const port = process.env.PORT || 3000
 app.listen(port, ()=>{
     console.log('server has started...')
