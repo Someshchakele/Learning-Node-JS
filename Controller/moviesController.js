@@ -1,18 +1,19 @@
-const fs = require('fs');
+// const fs = require('fs');
+const Movie = require('./../Models/movieModel')
 
-let movies = JSON.parse(fs.readFileSync('./Data/products.json'))
+// let movies = JSON.parse(fs.readFileSync('./Data/products.json'))
 
-exports.checkId = (req,res,next,value)=>{
-    let movie = movies.find(el => el.id === value * 1);
+// exports.checkId = (req,res,next,value)=>{
+//     let movie = movies.find(el => el.id === value * 1);
 
-    if(!movie){
-       return res.status(404).json({
-            status:"error",
-            message:" Movies with " + value + " is not found "
-        });
-    }
-    next();
-}
+//     if(!movie){
+//        return res.status(404).json({
+//             status:"error",
+//             message:" Movies with " + value + " is not found "
+//         });
+//     }
+//     next();
+// }
 
 exports.validateBody = (req,res,next)=>{
     if(!req.body.title){
@@ -25,21 +26,21 @@ exports.validateBody = (req,res,next)=>{
 }
 
 exports.getAllMovies = (req , res)=>{
-    res.status(200).json(
-        {
-            status:"success",
-            count:movies.length,
-            data:{
-                movies:movies
-            }
-        }
-    );
+    // res.status(200).json(
+    //     {
+    //         status:"success",
+    //         count:movies.length,
+    //         data:{
+    //             movies:movies
+    //         }
+    //     }
+    // );
 }
 
 exports.getMovie = (req , res)=>{
     // console.log(req.params);
 
-    const id = req.params.id * 1;
+    // const id = req.params.id * 1;
 
     // let movie = movies.find(el => el.id === id);
 
@@ -50,18 +51,18 @@ exports.getMovie = (req , res)=>{
     //     });
     // }
 
-    res.status(200).json({
-        status:"success",
-        data:{
-            movie:movie
-        }
-    });
+    // res.status(200).json({
+    //     status:"success",
+    //     data:{
+    //         movie:movie
+    //     }
+    // });
 }
 
 exports.updateMovie = (req,res)=>{
-    let id = req.params.id * 1;
-    let moviesUpdate = movies.find(el=> el.id === id);
-    let index = movies.indexOf(moviesUpdate);
+    // let id = req.params.id * 1;
+    // let moviesUpdate = movies.find(el=> el.id === id);
+    // let index = movies.indexOf(moviesUpdate);
 
     // if(!moviesUpdate){
     //     return res.status(404).json({
@@ -70,33 +71,33 @@ exports.updateMovie = (req,res)=>{
     //      });
     //  }
 
-    Object.assign(moviesUpdate, req.body);
-    movies[index] = moviesUpdate;
+    // Object.assign(moviesUpdate, req.body);
+    // movies[index] = moviesUpdate;
 
-    fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
-                res.status(201).json({
-                    status: "success",
-                    data: {
-                        movie:moviesUpdate
-                    }
-                })
-            })
+    // fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
+    //             res.status(201).json({
+    //                 status: "success",
+    //                 data: {
+    //                     movie:moviesUpdate
+    //                 }
+    //             })
+    //         })
     
 }
 
 exports.createMovie = (req , res)=>{
     // console.log(req.body)
-    const newId = movies[movies.length - 1].id + 1
-    const newMovie = Object.assign({id: newId}, req.body)
+    // const newId = movies[movies.length - 1].id + 1
+    // const newMovie = Object.assign({id: newId}, req.body)
 
-    movies.push(newMovie);
-    fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
-        res.status(201).json({
-            status: "status",
-            data: {
-                movie:newMovie
-            }
-        })
-    })
+    // movies.push(newMovie);
+    // fs.writeFile('./Data/products.json', JSON.stringify(movies), (err)=>{
+    //     res.status(201).json({
+    //         status: "status",
+    //         data: {
+    //             movie:newMovie
+    //         }
+    //     })
+    // })
    
 }
