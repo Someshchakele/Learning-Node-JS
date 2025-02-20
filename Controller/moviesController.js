@@ -95,7 +95,7 @@ exports.getMovie = async (req , res)=>{
         }
 }
 
-exports.updateMovie = (req,res)=>{
+exports.updateMovie = async (req,res)=>{
     // let id = req.params.id * 1;
     // let moviesUpdate = movies.find(el=> el.id === id);
     // let index = movies.indexOf(moviesUpdate);
@@ -118,7 +118,22 @@ exports.updateMovie = (req,res)=>{
     //                 }
     //             })
     //         })
-    
+    try{
+        const updateMovie = await Movie.findByIdAndUpdate(req.params.id,req.body,{new:true, runValidators:true});
+
+        res.status(201).json({
+            status: '' ,
+            data: {
+                updateMovie
+            }
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            status: 'fail' ,
+            message: err.message
+        })
+    }
 }
 
 exports.createMovie = async (req , res)=>{
