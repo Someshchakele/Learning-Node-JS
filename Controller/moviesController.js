@@ -25,7 +25,7 @@ const Movie = require('./../Models/movieModel')
 //     next();
 // }
 
-exports.getAllMovies = (req , res)=>{
+exports.getAllMovies = async (req , res)=>{
     // res.status(200).json(
     //     {
     //         status:"success",
@@ -35,10 +35,29 @@ exports.getAllMovies = (req , res)=>{
     //         }
     //     }
     // );
+    try{
+    const movies = await Movie.find();
+
+        res.status(200).json({
+            status: 'success' ,
+            length:movies.length,
+            data: {
+                movies
+            }
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            status: 'fail' ,
+            message: err.message
+        })
+    }
+   
 }
 
-exports.getMovie = (req , res)=>{
+exports.getMovie = async (req , res)=>{
     // console.log(req.params);
+
 
     // const id = req.params.id * 1;
 
@@ -57,6 +76,23 @@ exports.getMovie = (req , res)=>{
     //         movie:movie
     //     }
     // });
+
+    try{
+        const movies = await Movie.findById(req.params.id);
+    
+            res.status(200).json({
+                status: 'success' ,
+                data: {
+                    movies
+                }
+            })
+        }
+        catch(err){
+            res.status(400).json({
+                status: 'fail' ,
+                message: err.message
+            })
+        }
 }
 
 exports.updateMovie = (req,res)=>{
