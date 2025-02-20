@@ -15,15 +15,15 @@ const Movie = require('./../Models/movieModel')
 //     next();
 // }
 
-exports.validateBody = (req,res,next)=>{
-    if(!req.body.title){
-        return res.status(400).json({
-            status:"error",
-            message:" Not a valid movie data " 
-        });
-    }
-    next();
-}
+// exports.validateBody = (req,res,next)=>{
+//     if(!req.body.title){
+//         return res.status(400).json({
+//             status:"error",
+//             message:" Not a valid movie data " 
+//         });
+//     }
+//     next();
+// }
 
 exports.getAllMovies = (req , res)=>{
     // res.status(200).json(
@@ -85,7 +85,7 @@ exports.updateMovie = (req,res)=>{
     
 }
 
-exports.createMovie = (req , res)=>{
+exports.createMovie = async (req , res)=>{
     // console.log(req.body)
     // const newId = movies[movies.length - 1].id + 1
     // const newMovie = Object.assign({id: newId}, req.body)
@@ -99,5 +99,21 @@ exports.createMovie = (req , res)=>{
     //         }
     //     })
     // })
+    try{
+        const movie = await Movie.create(req.body);
+
+        res.status(201).json({
+            status: '' ,
+            data: {
+                movie
+            }
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            status: 'fail' ,
+            message: err.message
+        })
+    }
    
 }

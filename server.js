@@ -1,5 +1,6 @@
 
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 const app = require('./app')
 
 dotenv.config({path:'./config.env'});
@@ -17,13 +18,13 @@ mongoose.connect(process.env.CONN_STR,{
 
 
 
-const testMovie =  new Movie({
-    name:"hard",
-    description:"sfdgdfhsdfhsdf",
-    duration:112,
-    ratings:3.0
-})
-testMovie.save().then((doc)=>{console.log(doc)}).catch(err=>console.log("error occured"))
+// const testMovie =  new Movie({
+//     name:"hard",
+//     description:"sfdgdfhsdfhsdf",
+//     duration:112,
+//     ratings:3.0
+// })
+// testMovie.save().then((doc)=>{console.log(doc)}).catch(err=>console.log("error occured"))
 const port = process.env.PORT || 3000
 app.listen(port, ()=>{
     console.log('server has started...')
