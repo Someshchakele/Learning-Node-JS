@@ -37,7 +37,14 @@ exports.getAllMovies = async (req , res)=>{
     // );
     try{
         console.log(req.query);
-    const movies = await Movie.find(req.query);
+        const exclude = ['sort' , 'page'];
+
+        const queryObj = {...req.query};
+
+        exclude.forEach((el)=>{
+            delete queryObj[el]
+        })
+    const movies = await Movie.find(queryObj);
 
         res.status(200).json({
             status: 'success' ,
