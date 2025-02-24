@@ -39,12 +39,16 @@ exports.getAllMovies = async (req , res)=>{
         console.log(req.query);
         const exclude = ['sort' , 'page'];
 
-        const queryObj = {...req.query};
+        // const queryObj = {...req.query};
 
-        exclude.forEach((el)=>{
-            delete queryObj[el]
-        })
-    const movies = await Movie.find(queryObj);
+        // exclude.forEach((el)=>{
+        //     delete queryObj[el]
+        // })
+        let queryStr = JSON.stringify(req.query);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=> `$${match}`);
+        const queryObj = JSON.parse(queryStr)
+        console.log(queryObj)
+        const movies = await Movie.find(queryObj);
 
         res.status(200).json({
             status: 'success' ,
