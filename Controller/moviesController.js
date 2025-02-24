@@ -36,7 +36,8 @@ exports.getAllMovies = async (req , res)=>{
     //     }
     // );
     try{
-    const movies = await Movie.find();
+        console.log(req.query);
+    const movies = await Movie.find(req.query);
 
         res.status(200).json({
             status: 'success' ,
