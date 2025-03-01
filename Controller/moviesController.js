@@ -1,4 +1,4 @@
-// const fs = require('fs');
+const fs = require('fs');
 const Movie = require('./../Models/movieModel')
 
 // let movies = JSON.parse(fs.readFileSync('./Data/products.json'))
@@ -25,58 +25,68 @@ const Movie = require('./../Models/movieModel')
 //     next();
 // }
 
-exports.getAllMovies = async (req , res)=>{
-    // res.status(200).json(
-    //     {
-    //         status:"success",
-    //         count:movies.length,
-    //         data:{
-    //             movies:movies
-    //         }
-    //     }
-    // );
-    try{
+
+
+exports.getAllMovies = async (req, res) => {
+    try {
         console.log(req.query);
-        const exclude = ['sort' , 'page'];
 
-        // const queryObj = {...req.query};
+        let queryObj = { ...req.query };
+        let queryStr = JSON.stringify(queryObj);
+        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+        queryObj = JSON.parse(queryStr);
 
-        // exclude.forEach((el)=>{
-        //     delete queryObj[el]
-        // })
-        let queryStr = JSON.stringify(req.query);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match)=> `$${match}`);
-        const queryObj = JSON.parse(queryStr)
-        console.log(queryObj)
+        let query = Movie.find(queryObj); // Querying database
 
-     
-        const query = await Movie.find(queryObj);
-
-        if(req.query.sort){
-            const sortBy = req.query.sort.split(',').join(' ');
-            query = query.sort(sortBy);
+        if (req.query.fields) {
+            const fields = req.query.fields.split(',').join(' ');
+            query = query.select(fields);
+        } else {
+            query = query.sort('-createdAt');
         }
-        else{
-            query = query.sort('createdAt');
-        }
-        const movies = await query;
+
+        const movies = await query; // Awaiting database response
+
         res.status(200).json({
-            status: 'success' ,
-            length:movies.length,
+            status: 'success',
+            length: movies.length,
             data: {
                 movies
             }
-        })
-    }
-    catch(err){
+        });
+    } catch (err) {
         res.status(400).json({
-            status: 'fail' ,
+            status: 'fail',
             message: err.message
-        })
+        });
     }
-   
-}
+};
 
+
+exports.getMoviesStats = async(req , res)=>{
+try{
+    const stats = await Movie.aggregate([
+        {$match:{ratings: {$gte:1}}},
+        {$group:{_id : null,
+            avgRating: {$avg:'$ratings'},
+            avgDuration: {$avg:'$duration'},
+        }}
+    ])
+    res.status(200).json({
+        status:"success",
+        data:{
+           stats
+        }
+    });
+}
+catch(err){
+    res.status(400).json({
+        status: 'fail' ,
+        message: err.message
+    })
+}
+    
+}
 exports.getMovie = async (req , res)=>{
     // console.log(req.params);
 
