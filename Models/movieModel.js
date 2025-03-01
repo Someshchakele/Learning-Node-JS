@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const fs = require('fs')
+const path = require('path');
 const movieSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -21,6 +23,20 @@ const movieSchema = new mongoose.Schema({
 movieSchema.virtual('durationHours').get(function(){
     return this.duration / 60;
 })
+
+movieSchema.pre('save', function(next){
+   this.createdBy = 'MANOJJHA';
+   next();
+})
+
+movieSchema.post('save',function(doc,next){
+    const content = `A new movie ${doc.name}\n`
+    const filePath = path.join(__dirname, '/../Log/log.txt');
+   fs.appendFileSync(filePath, content, {flag:'a'} ,(err)=>{
+    console.log(err.message);
+   })
+   next();
+ })
 
 const Movie = mongoose.model('Movie', movieSchema)
 
