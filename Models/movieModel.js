@@ -5,7 +5,10 @@ const movieSchema = new mongoose.Schema({
     name:{
         type: String,
         required:[true , 'Name is required '],
-        unique: true
+        unique: true,
+        maxlength:[100 , "Movie length is greater than 100 character"],
+        minlength:[4 , "Movie length should be greater than 4 character"],
+
 
     },
     description: String,
