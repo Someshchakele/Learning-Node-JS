@@ -16,7 +16,14 @@ const movieSchema = new mongoose.Schema({
         type: Number,
         required:[true , 'Duration is required ']
     },
-    ratings:{type: Number , default:1.0}
+    ratings:{type: Number , 
+        validate: {
+            validator: function(val){
+                return val >= 1 && val <= 10;
+            },
+            message: 'Rating is ({VALUE}) must  be between 1 and 10'
+        }
+    }
 },
 {
     toJSON:{virtuals:true},
