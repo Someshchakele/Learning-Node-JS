@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please provide a password'],
-        minlength: 8
+        minlength: 8,
+        select:false,
     },
     passwordConfirm: {
         type: String,
@@ -38,7 +39,12 @@ if(!this.isModified('password')) return next();
 
 this.password = await bcrypt.hash(this.password, 12);
 this.passwordConfirm =  undefined;
+next();
 })
+
+userSchema.methods.comparePasswordInDb = async function(pswd , pswDB){
+    return await bcrypt.compare(pswd,pswDB)
+}
 
 const User = mongoose.model('User', userSchema);
 
