@@ -3,7 +3,7 @@ const User = require('../Models/userModel');
 const jwt = require('jsonwebtoken');
 const CustomError =  require('./../Utils/customErrors')
 
-const signToken = id =>{
+const signToken =  id =>{
   return jwt.sign({id}, process.env.SECRET_STR,{expiresIn :process.env.LOGIN_EXPIRES})
 }
 
@@ -39,7 +39,7 @@ exports.signup = async (req, res, next) => {
         return next(error);
       }
 
-      const token = signToken(newUser._id)
+      const token = signToken(user._id)
       
       res.status(200).json({  
         status: 'success',
@@ -47,4 +47,17 @@ exports.signup = async (req, res, next) => {
        
         });
 
+    }
+
+    exports.protect = async(req,res,next)=>{
+      const testToken = req.headers.authorization;
+      let token;
+      if(testToken && testToken.startsWith('bearer')){
+        token = testToken.split(' ')[1];
+      }
+      console.log(token)
+      if(!token){
+        next(new CustomError('You are noy logged in'))
+      }
+      next()
     }
